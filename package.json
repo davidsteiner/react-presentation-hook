@@ -55,7 +55,7 @@
   },
   "workspaces": [
     "apps/*",
-    "react-presentation-hook"
+    "lib"
   ],
   "nx": {
     "includedScripts": [],

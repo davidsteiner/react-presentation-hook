@@ -3,7 +3,7 @@
   "include": [],
   "references": [
     {
-      "path": "../../react-presentation-hook"
+      "path": "../../lib"
     },
     {
       "path": "./tsconfig.app.json"
