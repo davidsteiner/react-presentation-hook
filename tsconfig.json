@@ -5,6 +5,9 @@
   "references": [
     {
       "path": "./apps/vite-tanstack-app"
+    },
+    {
+      "path": "./react-presentation-hook"
     }
   ]
 }

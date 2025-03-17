@@ -1,8 +1,12 @@
 {
-  "name": "@react-presentation/vite-tanstack-app",
+  "name": "vite-tanstack-app",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "nx": {
     "name": "vite-tanstack-app"
+  },
+  "dependencies": {
+    "react-presentation-hook": "*"
   }
 }

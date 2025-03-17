@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "../../react-presentation-hook"
+    },
+    {
       "path": "./tsconfig.app.json"
     },
     {
