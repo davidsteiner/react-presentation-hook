@@ -1,14 +1,11 @@
 import NxWelcome from './nx-welcome';
 
 import { Route, Routes, Link } from 'react-router-dom';
-import { addFoo } from 'react-presentation-hook';
 
 export function App() {
-  const result = addFoo(1, 2);
   return (
     <div>
       <NxWelcome title="vite-tanstack-app" />
-      <div>Result = {result}</div>
 
       {/* START: routes */}
       {/* These routes and navigation have been generated for you */}
