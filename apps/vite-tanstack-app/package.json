@@ -1,0 +1,8 @@
+{
+  "name": "@react-presentation/vite-tanstack-app",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "name": "vite-tanstack-app"
+  }
+}
