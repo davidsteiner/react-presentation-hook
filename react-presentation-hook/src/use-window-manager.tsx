@@ -6,7 +6,7 @@ import {
   ParentEnvelope,
   ParentMessage,
   PingMessage,
-} from './messages.ts';
+} from './messages';
 
 export type ChildWindowOptions<T> = {
   url: string;
@@ -48,10 +48,7 @@ export function useWindowManager<
   TInitialState,
   TCustomOutboundPayload,
   TCustomInboundPayload
->(
-  onMessage: (message: TCustomInboundPayload) => void,
-  closeWithParent: boolean = true
-) {
+>(onMessage: (message: TCustomInboundPayload) => void, closeWithParent = true) {
   const [childWindowState, setChildWindowState] = useState<
     ChildWindowState<TInitialState, TCustomOutboundPayload>
   >({ type: 'unopened' });
@@ -125,6 +122,8 @@ export function useWindowManager<
     if (childWindowStateRef.current.type !== 'unopened') {
       return childWindowStateRef.current.childWindow;
     }
+
+    return null;
   };
 
   const handleParentUnload = useCallback(() => {
@@ -246,6 +245,8 @@ export function useWindowManager<
         clearInterval(pingIntervalId);
       };
     }
+
+    return;
   }, [childWindowState, sendMessage]);
 
   const isConnected = childWindowState?.type === 'ready';
