@@ -55,7 +55,8 @@
   },
   "workspaces": [
     "apps/*",
-    "lib"
+    "lib",
+    "examples/*"
   ],
   "nx": {
     "includedScripts": [],
