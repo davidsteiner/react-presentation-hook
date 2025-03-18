@@ -3,6 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useChildWindowManager } from "react-presentation-hook";
 
+import { Navigation } from "@/components/navigation";
+import { PresentationSlide } from "@/components/presentation-slide";
+
 import { ChildMessage, ParentMessage, PresentationState } from "../types";
 
 export const Route = createFileRoute("/presented-view")({
@@ -15,7 +18,7 @@ function PresentedView() {
   const onMessage = ({ newState }: ParentMessage) => {
     setPresentationState(newState);
   };
-  const { initialState } = useChildWindowManager<
+  const { initialState, sendMessage } = useChildWindowManager<
     PresentationState,
     ParentMessage,
     ChildMessage
@@ -27,23 +30,37 @@ function PresentedView() {
     }
   }, [initialState]);
 
+  const onNext = () => {
+    if (sendMessage) {
+      sendMessage({ type: "move-next" });
+    }
+  };
+
+  const onBack = () => {
+    if (sendMessage) {
+      sendMessage({ type: "move-back" });
+    }
+  };
+
   if (presentationState === null) {
     return <div>Loading...</div>;
   }
 
-  const {
-    currentSlide: { title, content },
-    currentIndex: index,
-    length,
-  } = presentationState;
+  const { currentSlide, currentIndex, length } = presentationState;
 
   return (
-    <div>
-      <div>
-        Slide ({index + 1} / {length})
+    <div className="p-4 my-8 flex flex-col bg-gradient-to-b from-gray-50 to-gray-100 rounded-lg">
+      <div className="h-96 pb-8">
+        <PresentationSlide slide={currentSlide} />
       </div>
-      <h1>{title}</h1>
-      <p>{content}</p>
+      <div className="flex justify-center">
+        <Navigation
+          currentIndex={currentIndex}
+          length={length}
+          onNext={onNext}
+          onBack={onBack}
+        />
+      </div>
     </div>
   );
 }
