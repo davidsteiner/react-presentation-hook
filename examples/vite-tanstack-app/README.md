@@ -12,7 +12,7 @@ in the presenter's view or the external presentation screen.
 
 ## Running the app
 
-In order to run the app, just run 
+In order to run the app, just run
 
 ```shell
 nx serve vite-tanstack-app

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import {
   ChildEnvelope,
@@ -6,7 +6,7 @@ import {
   ParentEnvelope,
   ParentMessage,
   PingMessage,
-} from './messages';
+} from "./messages";
 
 export type ChildWindowOptions<T> = {
   url: string;
@@ -20,18 +20,18 @@ const generateId = () => {
 };
 
 type UnopenedState = {
-  type: 'unopened';
+  type: "unopened";
 };
 
 type OpeningState<TInitialState> = {
-  type: 'opening';
+  type: "opening";
   sessionId: string;
   state: TInitialState;
   childWindow: Window;
 };
 
 type ReadyState<TInitialState, TCustomOutboundPayload> = {
-  type: 'ready';
+  type: "ready";
   sessionId: string;
   childWindow: Window;
   sendMessage: (
@@ -47,18 +47,18 @@ type ChildWindowState<TInitialState, TParentMessage> =
 export function useWindowManager<
   TInitialState,
   TCustomOutboundPayload,
-  TCustomInboundPayload
+  TCustomInboundPayload,
 >(onMessage: (message: TCustomInboundPayload) => void, closeWithParent = true) {
   const [childWindowState, setChildWindowState] = useState<
     ChildWindowState<TInitialState, TCustomOutboundPayload>
-  >({ type: 'unopened' });
+  >({ type: "unopened" });
   // this duplicates local state to avoid race conditions
   // where handleMessage may be called before the state is updated
   // TODO: I'm sure there is a better way
   const childWindowStateRef = useRef<
     ChildWindowState<TInitialState, TCustomOutboundPayload>
   >({
-    type: 'unopened',
+    type: "unopened",
   });
 
   const updateChildWindowState = useCallback(
@@ -71,23 +71,23 @@ export function useWindowManager<
 
   const openChildWindow = ({
     url,
-    name = 'child-window',
+    name = "child-window",
     initialState,
-    features = 'width=1024,height=768',
+    features = "width=1024,height=768",
   }: ChildWindowOptions<TInitialState>) => {
     const sessionId = generateId();
     const urlObject = new URL(url, window.location.origin);
-    urlObject.searchParams.append('sessionId', sessionId);
+    urlObject.searchParams.append("sessionId", sessionId);
 
     const newWindow = window.open(urlObject.toString(), name, features);
     if (!newWindow) {
       throw new Error(
-        'Failed to open child window. Check popup blocker settings.'
+        "Failed to open child window. Check popup blocker settings."
       );
     }
 
     const openingState: OpeningState<TInitialState> = {
-      type: 'opening',
+      type: "opening",
       sessionId,
       state: initialState,
       childWindow: newWindow,
@@ -98,8 +98,8 @@ export function useWindowManager<
     const checkIfChildClosed = setInterval(() => {
       if (newWindow.closed) {
         clearInterval(checkIfChildClosed);
-        if (childWindowStateRef.current.type !== 'unopened') {
-          updateChildWindowState({ type: 'unopened' });
+        if (childWindowStateRef.current.type !== "unopened") {
+          updateChildWindowState({ type: "unopened" });
         }
       }
     }, 500);
@@ -108,18 +108,18 @@ export function useWindowManager<
   };
 
   const closeChildWindow = () => {
-    if (childWindowState.type !== 'unopened') {
+    if (childWindowState.type !== "unopened") {
       const childWindow = getChildWindow();
       if (childWindow && !childWindow.closed) {
-        sendMessage({ type: 'close' });
+        sendMessage({ type: "close" });
         childWindow.close();
       }
-      updateChildWindowState({ type: 'unopened' });
+      updateChildWindowState({ type: "unopened" });
     }
   };
 
   const getChildWindow = () => {
-    if (childWindowStateRef.current.type !== 'unopened') {
+    if (childWindowStateRef.current.type !== "unopened") {
       return childWindowStateRef.current.childWindow;
     }
 
@@ -135,7 +135,7 @@ export function useWindowManager<
 
   const sendMessage = useCallback(
     (message: ParentMessage<TInitialState, TCustomOutboundPayload>) => {
-      if (childWindowStateRef.current.type !== 'unopened') {
+      if (childWindowStateRef.current.type !== "unopened") {
         const childWindow = childWindowStateRef.current.childWindow;
 
         if (childWindow.closed) {
@@ -147,7 +147,7 @@ export function useWindowManager<
             sessionId: childWindowStateRef.current.sessionId,
             ...message,
           };
-        childWindow.postMessage(envelope, '*');
+        childWindow.postMessage(envelope, "*");
         return true;
       } else {
         return false;
@@ -166,13 +166,13 @@ export function useWindowManager<
     const handleMessage = (event: MessageEvent) => {
       const message = event.data as ChildEnvelope<TCustomInboundPayload>;
 
-      if (!message || typeof message !== 'object' || !message.type) {
+      if (!message || typeof message !== "object" || !message.type) {
         return; // Not our message format
       }
 
       // We are not ready to process messages, probably a stale message
       const childWindowState = childWindowStateRef.current;
-      if (childWindowState.type === 'unopened') {
+      if (childWindowState.type === "unopened") {
         return;
       }
 
@@ -182,17 +182,17 @@ export function useWindowManager<
       }
 
       switch (message.type) {
-        case 'ready': {
-          if (childWindowState.type === 'opening') {
+        case "ready": {
+          if (childWindowState.type === "opening") {
             const childWindow = childWindowState.childWindow;
             const initMessage: InitMessage<TInitialState> = {
-              type: 'init',
+              type: "init",
               state: childWindowState.state,
               closeWithParent,
             };
             sendMessage(initMessage);
             updateChildWindowState({
-              type: 'ready',
+              type: "ready",
               sessionId: childWindowState.sessionId,
               childWindow: childWindow,
               sendMessage: (
@@ -202,23 +202,23 @@ export function useWindowManager<
                   sessionId: childWindowState.sessionId,
                   ...message,
                 };
-                childWindow.postMessage(envelope, '*');
+                childWindow.postMessage(envelope, "*");
               },
             });
           }
           break;
         }
-        case 'custom': {
+        case "custom": {
           onMessage(message.payload);
           break;
         }
       }
     };
 
-    window.addEventListener('message', handleMessage);
+    window.addEventListener("message", handleMessage);
 
     return () => {
-      window.removeEventListener('message', handleMessage);
+      window.removeEventListener("message", handleMessage);
     };
   }, [
     closeWithParent,
@@ -230,10 +230,10 @@ export function useWindowManager<
 
   useEffect(() => {
     // Only send pings if we have a ready child window
-    if (childWindowState?.type === 'ready') {
+    if (childWindowState?.type === "ready") {
       const pingIntervalId = setInterval(() => {
         const pingMessage: PingMessage = {
-          type: 'ping',
+          type: "ping",
           timestamp: Date.now(),
         };
 
@@ -249,11 +249,11 @@ export function useWindowManager<
     return;
   }, [childWindowState, sendMessage]);
 
-  const isConnected = childWindowState?.type === 'ready';
+  const isConnected = childWindowState?.type === "ready";
   const sendCustomMessage =
-    childWindowState?.type === 'ready'
+    childWindowState?.type === "ready"
       ? (payload: TCustomOutboundPayload) =>
-          childWindowState.sendMessage({ type: 'custom' as const, payload })
+          childWindowState.sendMessage({ type: "custom" as const, payload })
       : null;
 
   return {

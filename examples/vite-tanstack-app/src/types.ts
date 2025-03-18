@@ -13,4 +13,4 @@ export type ParentMessage = {
   newState: PresentationState;
 };
 
-export type ChildMessage = { type: 'move-next' } | { type: 'move-back' };
+export type ChildMessage = { type: "move-next" } | { type: "move-back" };

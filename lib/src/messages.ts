@@ -1,18 +1,18 @@
 export type CustomMessage<TPayload> = {
-  type: 'custom';
+  type: "custom";
   payload: TPayload;
 };
 
 export type InitMessage<TChildState> = {
-  type: 'init';
+  type: "init";
   state: TChildState;
   closeWithParent: boolean;
 };
 
-export type CloseMessage = { type: 'close' };
+export type CloseMessage = { type: "close" };
 
 export type PingMessage = {
-  type: 'ping';
+  type: "ping";
   timestamp: number;
 };
 
@@ -27,7 +27,7 @@ export type ParentEnvelope<TChildState, TPayload> = ParentMessage<
   TPayload
 > & { sessionId: string };
 
-export type ReadyMessage = { type: 'ready' };
+export type ReadyMessage = { type: "ready" };
 
 export type ChildMessage<TCustomPayload> =
   | ReadyMessage

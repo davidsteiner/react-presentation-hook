@@ -1,16 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from "@tanstack/react-router";
 
-import { useState } from 'react';
-import { useWindowManager } from 'react-presentation-hook';
+import { useState } from "react";
+import { useWindowManager } from "react-presentation-hook";
 
 import {
   ChildMessage,
   ParentMessage,
   PresentationState,
   Slide,
-} from '../types';
+} from "../types";
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute("/")({
   component: Index,
 });
 
@@ -25,11 +25,11 @@ function Index() {
 
   const onMessage = ({ type }: ChildMessage) => {
     switch (type) {
-      case 'move-next': {
+      case "move-next": {
         onNext();
         break;
       }
-      case 'move-back': {
+      case "move-back": {
         onBack();
         break;
       }
@@ -44,7 +44,7 @@ function Index() {
 
   const onOpen = () => {
     openChildWindow({
-      url: '/presented-view',
+      url: "/presented-view",
       initialState: presentationState,
     });
   };
@@ -98,15 +98,15 @@ function Index() {
 
 const slides: Slide[] = [
   {
-    title: 'Introduction',
-    content: 'This will be a presentation about dolphins.',
+    title: "Introduction",
+    content: "This will be a presentation about dolphins.",
   },
   {
-    title: 'Something in the middle',
-    content: 'Dolphins are smart.',
+    title: "Something in the middle",
+    content: "Dolphins are smart.",
   },
   {
-    title: 'Conclusion',
-    content: 'This was a presentation about dolphins.',
+    title: "Conclusion",
+    content: "This was a presentation about dolphins.",
   },
 ];

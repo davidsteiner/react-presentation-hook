@@ -1,11 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from "@tanstack/react-router";
 
-import { useEffect, useState } from 'react';
-import { useChildWindowManager } from 'react-presentation-hook';
+import { useEffect, useState } from "react";
+import { useChildWindowManager } from "react-presentation-hook";
 
-import { ChildMessage, ParentMessage, PresentationState } from '../types';
+import { ChildMessage, ParentMessage, PresentationState } from "../types";
 
-export const Route = createFileRoute('/presented-view')({
+export const Route = createFileRoute("/presented-view")({
   component: PresentedView,
 });
 

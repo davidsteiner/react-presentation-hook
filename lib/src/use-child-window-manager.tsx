@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
-import { ChildMessage, ParentEnvelope } from './messages';
+import { ChildMessage, ParentEnvelope } from "./messages";
 
 type Connection<TCustomPayload> = {
   parentWindow: Window;
@@ -13,7 +13,7 @@ const PING_TIMEOUT = 3000;
 export function useChildWindowManager<
   TInitialState,
   TCustomInboundPayload,
-  TCustomOutboundPayload
+  TCustomOutboundPayload,
 >(onMessage: (message: TCustomInboundPayload) => void) {
   const [connection, setConnection] =
     useState<Connection<TCustomOutboundPayload> | null>(null);
@@ -28,7 +28,7 @@ export function useChildWindowManager<
     }
 
     const urlParams = new URLSearchParams(window.location.search);
-    const urlSessionId = urlParams.get('sessionId');
+    const urlSessionId = urlParams.get("sessionId");
 
     if (!urlSessionId) {
       return;
@@ -43,13 +43,13 @@ export function useChildWindowManager<
           sessionId: urlSessionId,
           ...message,
         };
-        parentWindow.postMessage(envelope, '*');
+        parentWindow.postMessage(envelope, "*");
       },
     };
     setConnection(connection);
 
     // Send ready message to parent
-    connection.send({ type: 'ready' });
+    connection.send({ type: "ready" });
 
     const handleMessage = (event: MessageEvent) => {
       const message = event.data as ParentEnvelope<
@@ -59,7 +59,7 @@ export function useChildWindowManager<
 
       if (
         !message ||
-        typeof message !== 'object' ||
+        typeof message !== "object" ||
         !message.sessionId ||
         message.sessionId !== connection.sessionId
       ) {
@@ -71,29 +71,29 @@ export function useChildWindowManager<
       }
 
       switch (message.type) {
-        case 'close': {
+        case "close": {
           window.close();
           break;
         }
-        case 'init': {
+        case "init": {
           setInitialState(message.state);
           setCloseWithParent(message.closeWithParent);
           break;
         }
-        case 'ping': {
+        case "ping": {
           lastPingTimeRef.current = message.timestamp;
           break;
         }
-        case 'custom': {
+        case "custom": {
           onMessage(message.payload);
           break;
         }
       }
     };
-    window.addEventListener('message', handleMessage);
+    window.addEventListener("message", handleMessage);
 
     return () => {
-      window.removeEventListener('message', handleMessage);
+      window.removeEventListener("message", handleMessage);
     };
   }, [onMessage]);
 
@@ -136,7 +136,7 @@ export function useChildWindowManager<
 
   useEffect(() => {
     if (connection) {
-      connection.send({ type: 'ready' });
+      connection.send({ type: "ready" });
     }
   }, [connection]);
 
@@ -144,7 +144,7 @@ export function useChildWindowManager<
   const sendMessage = connection
     ? (payload: TCustomOutboundPayload) => {
         const message = {
-          type: 'custom' as const,
+          type: "custom" as const,
           payload,
         };
         connection?.send(message);
