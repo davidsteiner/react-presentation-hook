@@ -1,6 +1,17 @@
+export type SlideContent = {
+  text: string;
+  bullets?: string[];
+  codeBlock?: {
+    code: string;
+    language: string;
+  };
+};
+
 export type Slide = {
   title: string;
-  content: string;
+  subtitle?: string;
+  content: SlideContent;
+  notes?: string;
 };
 
 export type PresentationState = {

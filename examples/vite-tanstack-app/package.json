@@ -7,12 +7,18 @@
     "name": "vite-tanstack-app"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.1.2",
     "@tailwindcss/vite": "^4.0.14",
     "@tanstack/react-router": "^1.114.22",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.483.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-presentation-hook": "*",
-    "tailwindcss": "^4.0.14"
+    "tailwind-merge": "^3.0.2",
+    "tailwindcss": "^4.0.14",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@tanstack/react-router-devtools": "^1.114.22",
