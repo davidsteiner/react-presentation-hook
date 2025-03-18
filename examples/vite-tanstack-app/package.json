@@ -7,10 +7,12 @@
     "name": "vite-tanstack-app"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.0.14",
     "@tanstack/react-router": "^1.114.22",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-presentation-hook": "*"
+    "react-presentation-hook": "*",
+    "tailwindcss": "^4.0.14"
   },
   "devDependencies": {
     "@tanstack/react-router-devtools": "^1.114.22",

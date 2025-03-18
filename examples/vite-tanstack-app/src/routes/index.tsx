@@ -86,7 +86,7 @@ function Index() {
   };
 
   return (
-    <div className="p-2">
+    <div className="p-2 underline">
       <h1>A demo presentation</h1>
 
       <button onClick={onOpen}>Open external window</button>
