@@ -3,6 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useWindowManager } from "react-presentation-hook";
 
+import { MonitorUp, MonitorX } from "lucide-react";
+
 import { Navigation } from "@/components/navigation";
 import { PresentationSlide } from "@/components/presentation-slide";
 import { Button } from "@/components/ui/button";
@@ -34,11 +36,8 @@ function Index() {
     }
   };
 
-  const { openChildWindow, sendMessage } = useWindowManager<
-    PresentationState,
-    ParentMessage,
-    ChildMessage
-  >(onMessage);
+  const { openChildWindow, closeChildWindow, isConnected, sendMessage } =
+    useWindowManager<PresentationState, ParentMessage, ChildMessage>(onMessage);
 
   const onOpen = () => {
     openChildWindow({
@@ -89,7 +88,15 @@ function Index() {
         <PresentationSlide slide={presentationState.currentSlide} />
       </div>
       <div className="flex gap-2 justify-center">
-        <Button onClick={onOpen}>Open external window</Button>
+        {isConnected ? (
+          <Button onClick={closeChildWindow}>
+            <MonitorX />
+          </Button>
+        ) : (
+          <Button onClick={onOpen}>
+            <MonitorUp />
+          </Button>
+        )}
         <Navigation
           currentIndex={presentationState.currentIndex}
           length={presentationState.length}
