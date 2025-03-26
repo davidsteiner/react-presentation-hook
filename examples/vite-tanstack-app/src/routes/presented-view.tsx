@@ -1,12 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useChildWindowManager } from "react-presentation-hook";
 
 import { Navigation } from "@/components/navigation";
 import { PresentationSlide } from "@/components/presentation-slide";
-
-import { ChildMessage, ParentMessage, PresentationState } from "../types";
+import { ChildMessage, ParentMessage, PresentationState } from "@/types";
 
 export const Route = createFileRoute("/presented-view")({
   component: PresentedView,
@@ -15,14 +14,15 @@ export const Route = createFileRoute("/presented-view")({
 function PresentedView() {
   const [presentationState, setPresentationState] =
     useState<PresentationState | null>(null);
-  const onMessage = ({ newState }: ParentMessage) => {
+  const onMessage = useCallback(({ newState }: ParentMessage) => {
     setPresentationState(newState);
-  };
+  }, []);
+
   const { initialState, sendMessage } = useChildWindowManager<
     PresentationState,
     ParentMessage,
     ChildMessage
-  >(onMessage);
+  >({ onMessage });
 
   useEffect(() => {
     if (initialState) {

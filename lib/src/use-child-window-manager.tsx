@@ -10,11 +10,15 @@ type Connection<TCustomPayload> = {
 
 const PING_TIMEOUT = 3000;
 
+export type ChildWindowManagerOptions<TCustomInboundPayload> = {
+  onMessage: (message: TCustomInboundPayload) => void;
+};
+
 export function useChildWindowManager<
   TInitialState,
   TCustomInboundPayload,
   TCustomOutboundPayload,
->(onMessage: (message: TCustomInboundPayload) => void) {
+>({ onMessage }: ChildWindowManagerOptions<TCustomInboundPayload>) {
   const [connection, setConnection] =
     useState<Connection<TCustomOutboundPayload> | null>(null);
   const [initialState, setInitialState] = useState<TInitialState | null>(null);
