@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useWindowManager } from "react-presentation-hook";
 
 import { MonitorUp, MonitorX } from "lucide-react";
@@ -23,21 +23,54 @@ function Index() {
     }
   );
 
-  const onMessage = ({ type }: ChildMessage) => {
-    switch (type) {
-      case "move-next": {
-        onNext();
-        break;
+  const onBack = useCallback(() => {
+    setPresentationState((previousState) => {
+      const newIndex = previousState.currentIndex - 1;
+      if (newIndex < slides.length) {
+        return {
+          currentIndex: newIndex,
+          currentSlide: slides[newIndex],
+          length: slides.length,
+        };
       }
-      case "move-back": {
-        onBack();
-        break;
+      return previousState;
+    });
+  }, []);
+
+  const onNext = useCallback(() => {
+    setPresentationState((previousState) => {
+      const newIndex = previousState.currentIndex + 1;
+      if (newIndex < slides.length) {
+        return {
+          currentIndex: newIndex,
+          currentSlide: slides[newIndex],
+          length: slides.length,
+        };
       }
-    }
-  };
+      return previousState;
+    });
+  }, []);
+
+  const onMessage = useCallback(
+    ({ type }: ChildMessage) => {
+      switch (type) {
+        case "move-next": {
+          onNext();
+          break;
+        }
+        case "move-back": {
+          onBack();
+          break;
+        }
+      }
+    },
+    [onBack, onNext]
+  );
 
   const { openChildWindow, closeChildWindow, isConnected, sendMessage } =
-    useWindowManager<PresentationState, ParentMessage, ChildMessage>(onMessage);
+    useWindowManager<PresentationState, ParentMessage, ChildMessage>({
+      onMessage,
+    });
 
   const onOpen = () => {
     openChildWindow({
@@ -46,41 +79,11 @@ function Index() {
     });
   };
 
-  const onNext = () => {
-    setPresentationState((previousState) => {
-      const newIndex = previousState.currentIndex + 1;
-      if (newIndex < slides.length) {
-        const newState = {
-          currentIndex: newIndex,
-          currentSlide: slides[newIndex],
-          length: slides.length,
-        };
-        if (sendMessage) {
-          sendMessage({ newState });
-        }
-        return newState;
-      }
-      return previousState;
-    });
-  };
-
-  const onBack = () => {
-    setPresentationState((previousState) => {
-      const newIndex = previousState.currentIndex - 1;
-      if (newIndex < slides.length) {
-        const newState = {
-          currentIndex: newIndex,
-          currentSlide: slides[newIndex],
-          length: slides.length,
-        };
-        if (sendMessage) {
-          sendMessage({ newState });
-        }
-        return newState;
-      }
-      return previousState;
-    });
-  };
+  useEffect(() => {
+    if (sendMessage) {
+      sendMessage({ newState: presentationState });
+    }
+  }, [presentationState, sendMessage]);
 
   return (
     <div className="p-4 my-8 flex flex-col bg-gradient-to-b from-gray-50 to-gray-100 rounded-lg">

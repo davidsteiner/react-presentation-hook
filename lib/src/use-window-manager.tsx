@@ -44,11 +44,17 @@ type ChildWindowState<TInitialState, TParentMessage> =
   | ReadyState<TInitialState, TParentMessage>
   | UnopenedState;
 
+export type WindowManagerOptions<TCustomInboundPayload> = {
+  onMessage: (message: TCustomInboundPayload) => void;
+  closeWithParent?: boolean;
+};
+
 export function useWindowManager<
   TInitialState,
   TCustomOutboundPayload,
   TCustomInboundPayload,
->(onMessage: (message: TCustomInboundPayload) => void, closeWithParent = true) {
+>(options: WindowManagerOptions<TCustomInboundPayload>) {
+  const { onMessage, closeWithParent = true } = options;
   const [childWindowState, setChildWindowState] = useState<
     ChildWindowState<TInitialState, TCustomOutboundPayload>
   >({ type: "unopened" });
