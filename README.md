@@ -33,14 +33,15 @@ in either direction.
 These two hooks are `useWindowManager` and `useChildWindowManager` for the parent
 window and the child window respectively.
 
+
 ### In the parent window
 
 Implement a message handler function, and pass it to the hook:
 
 ```typescript
 function ParentComponent() {
-  const onMessage = useCallback(() => {
-    ...
+  const onMessage = useCallback((message: ChildMessage) => {
+  ...
   }, [...]);
 
   const { openChildWindow, closeChildWindow, isConnected, sendMessage } =
@@ -71,3 +72,30 @@ the name of the child window, and
 
 For a complete example, refer to
 [the examples](https://github.com/davidsteiner/react-presentation-hook/blob/main/examples/vite-tanstack-app/src/routes/index.tsx).
+
+
+### In the child window
+
+Ensure that you have a route handling the path which the parent opens
+the child window at.
+
+In the component, use the `useChildWindowManager` hook to
+establish the connection with the parent:
+
+```typescript
+function ChildComponent() {
+  const onMessage = useCallback((message: ParentMessage) => {
+  }, []);
+
+  const { initialState, sendMessage } = useChildWindowManager<
+    PresentationState,
+    ParentMessage,
+    ChildMessage
+  >({ onMessage });
+  
+  // do something with the initial state and sendMessage
+}
+```
+
+You can use `sendMessage` to send messages to the parent,
+if bidirectional communication is needed.
