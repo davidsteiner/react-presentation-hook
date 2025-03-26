@@ -61,3 +61,13 @@ established.
 By default, the child window will be automatically closed when the
 parent window closes. To leave it open, pass `{ onMessage, closeWithParent: false }`
 to `useWindowManager`.
+
+`openChildWindow` takes 4 arguments - the URL to open, the initial state to pass the child,
+the name of the child window, and
+[its features](https://developer.mozilla.org/en-US/docs/Web/API/Window/open#windowfeatures).
+
+> Your app needs to define a route for the URL passed to `openChildWindow`.
+> This is where the child hook will be used.
+
+For a complete example, refer to
+[the examples](https://github.com/davidsteiner/react-presentation-hook/blob/main/examples/vite-tanstack-app/src/routes/index.tsx).
