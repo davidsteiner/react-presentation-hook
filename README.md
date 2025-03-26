@@ -1,6 +1,14 @@
+<div align="center">
+
 # react-presentation-hook
 
-A React hook for opening, managing and communicating with a child window in a type-safe manner.
+**A React hook for opening, managing and communicating with a child window in a type-safe manner.**
+
+![QA](https://img.shields.io/github/actions/workflow/status/davidsteiner/react-presentation-hook/ci.yml)
+![NPM](https://img.shields.io/npm/v/react-presentation-hook)
+![GitHub License](https://img.shields.io/github/license/davidsteiner/react-presentation-hook)
+
+</div>
 
 ## Use-cases
 
