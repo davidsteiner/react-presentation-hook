@@ -2,9 +2,10 @@ import { Slide } from "@/types";
 
 type Props = {
   slide: Slide;
+  showNotes?: boolean;
 };
 
-export function PresentationSlide({ slide }: Props) {
+export function PresentationSlide({ slide, showNotes = true }: Props) {
   const { title, subtitle, content } = slide;
 
   return (
@@ -43,7 +44,7 @@ export function PresentationSlide({ slide }: Props) {
         )}
       </div>
 
-      {slide.notes && (
+      {showNotes && slide.notes && (
         <div className="mt-8 text-sm border-t border-slate-200 pt-4 text-slate-500 italic">
           <p>{slide.notes}</p>
         </div>
