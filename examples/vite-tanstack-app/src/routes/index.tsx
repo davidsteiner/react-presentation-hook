@@ -74,7 +74,7 @@ function Index() {
 
   const onOpen = () => {
     openChildWindow({
-      url: "/presented-view",
+      url: "#/presented-view",
       initialState: presentationState,
     });
   };
