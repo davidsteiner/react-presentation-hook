@@ -16,6 +16,10 @@ This library can be used for presentations, where the presented view needs to be
 
 While the primary use-case is presentations, this is a generic implementation which can be used for any scenario where a controlled additional window is needed with bi-directional communication with the parent window.
 
+If you feel like this library may fit your use-case, check out the deployed demo app:
+
+https://davidsteiner.github.io/react-presentation-hook/
+
 ## Installation
 
 Install `react-presentation-hook` using your favourite package manager.
@@ -32,7 +36,6 @@ in either direction.
 
 These two hooks are `useWindowManager` and `useChildWindowManager` for the parent
 window and the child window respectively.
-
 
 ### In the parent window
 
@@ -73,7 +76,6 @@ the name of the child window, and
 For a complete example, refer to
 [the examples](https://github.com/davidsteiner/react-presentation-hook/blob/main/examples/vite-tanstack-app/src/routes/index.tsx).
 
-
 ### In the child window
 
 Ensure that you have a route handling the path which the parent opens
@@ -84,15 +86,10 @@ establish the connection with the parent:
 
 ```typescript
 function ChildComponent() {
-  const onMessage = useCallback((message: ParentMessage) => {
-  }, []);
+  const onMessage = useCallback((message: ParentMessage) => {}, []);
 
-  const { initialState, sendMessage } = useChildWindowManager<
-    PresentationState,
-    ParentMessage,
-    ChildMessage
-  >({ onMessage });
-  
+  const { initialState, sendMessage } = useChildWindowManager<PresentationState, ParentMessage, ChildMessage>({ onMessage });
+
   // do something with the initial state and sendMessage
 }
 ```
