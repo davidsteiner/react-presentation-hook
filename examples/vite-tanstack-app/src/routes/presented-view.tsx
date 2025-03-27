@@ -49,10 +49,8 @@ function PresentedView() {
   const { currentSlide, currentIndex, length } = presentationState;
 
   return (
-    <div className="p-4 my-8 flex flex-col bg-gradient-to-b from-gray-50 to-gray-100 rounded-lg">
-      <div className="h-96 pb-8">
-        <PresentationSlide slide={currentSlide} showNotes={false} />
-      </div>
+    <>
+      <PresentationSlide slide={currentSlide} showNotes={false} />
       <div className="flex justify-center">
         <Navigation
           currentIndex={currentIndex}
@@ -61,6 +59,6 @@ function PresentedView() {
           onBack={onBack}
         />
       </div>
-    </div>
+    </>
   );
 }

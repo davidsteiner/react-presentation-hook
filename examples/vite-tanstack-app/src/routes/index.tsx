@@ -93,10 +93,8 @@ function Index() {
   }, [presentationState, sendMessage]);
 
   return (
-    <div className="p-4 my-8 flex flex-col bg-gradient-to-b from-gray-50 to-gray-100 rounded-lg">
-      <div className="h-96 pb-8">
-        <PresentationSlide slide={presentationState.currentSlide} />
-      </div>
+    <>
+      <PresentationSlide slide={presentationState.currentSlide} />
       <div className="flex gap-2 justify-center">
         {isConnected ? (
           <Button onClick={closeChildWindow}>
@@ -114,7 +112,7 @@ function Index() {
           onBack={onBack}
         />
       </div>
-    </div>
+    </>
   );
 }
 
