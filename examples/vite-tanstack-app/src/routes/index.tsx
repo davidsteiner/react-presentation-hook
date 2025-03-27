@@ -14,6 +14,12 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+const getBasePath = () => {
+  // In development, this will be an empty string
+  // In production on GitHub Pages, it will be '/react-presentation-hook'
+  return import.meta.env.BASE_URL || "/";
+};
+
 function Index() {
   const [presentationState, setPresentationState] = useState<PresentationState>(
     {
@@ -73,8 +79,9 @@ function Index() {
     });
 
   const onOpen = () => {
+    const url = `${getBasePath()}/#/presented-view`;
     openChildWindow({
-      url: "#/presented-view",
+      url,
       initialState: presentationState,
     });
   };

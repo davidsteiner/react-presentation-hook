@@ -7,6 +7,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig(() => ({
   root: __dirname,
+  base: "/react-presentation-hook/",
   cacheDir: "../../node_modules/.vite/apps/vite-tanstack-app",
   server: {
     port: 4200,
